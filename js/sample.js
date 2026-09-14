@@ -44,32 +44,32 @@ window.KAC_FORM_SAMPLE = (function () {
 // 行＝事業（イベント）。lanes / days は入力フォームから自動生成される
 window.KAC_OPS_SAMPLE = {
   version: 1, base: 'ops',
-  meta: { program: '', title: '9月イベント タイムスケジュール', dates: '2026年9月12日(土)', venue: '京都芸術センター', updated: '2026-09-14' },
+  meta: { program: '', title: '9月イベント タイムスケジュール', dates: '2026年9月12日(土)', venue: 'KAC', updated: '2026-09-14' },
   settings: { startHour: 9, endHour: 23, slot: 30, openTime: '', closeTime: '' },
   lanes: [], days: [], notes: '',
   form: {
-    technical: ['鬣', '川瀬', '十河', '村上'],
-    personnel: ['原田', '押尾', '青田', '雪岡', '萩原'],
+    technical: ['T', 'K', 'S', 'M'],
+    personnel: ['H', 'O', 'A', 'Y', 'Hg'],
     type: 'stage',
     events: [
       { date: '2026-09-12', name: '明倫レコード倶楽部', type: 'stage', location: 'フリースペース',
         phases: [
-          { type: 'setup', label: '午前中設営', startTime: '10:00', endTime: '12:30', technical: ['鬣', '十河', '川瀬', '村上'], personnel: ['原田', '押尾'] },
-          { type: 'performance', label: '本番', startTime: '15:00', endTime: '18:00', technical: [], personnel: ['原田', '押尾'] },
-          { type: 'teardown', label: '', startTime: '18:00', endTime: '20:00', technical: ['鬣', '川瀬', '十河', '村上'], personnel: ['原田', '押尾'] }
+          { type: 'setup', label: '午前中設営', startTime: '10:00', endTime: '12:30', technical: ['T', 'S', 'K', 'M'], personnel: ['H', 'O'] },
+          { type: 'performance', label: '本番', startTime: '15:00', endTime: '18:00', technical: [], personnel: ['H', 'O'] },
+          { type: 'teardown', label: '', startTime: '18:00', endTime: '20:00', technical: ['T', 'K', 'S', 'M'], personnel: ['H', 'O'] }
         ] },
       { date: '2026-09-12', name: 'UAC', type: 'talk', location: '講堂',
         phases: [
-          { type: 'setup', label: '準備', startTime: '12:00', endTime: '22:00', technical: ['鬣', '川瀬', '十河', '村上'], personnel: [] }
+          { type: 'setup', label: '準備', startTime: '12:00', endTime: '22:00', technical: ['T', 'K', 'S', 'M'], personnel: [] }
         ] },
       { date: '2026-09-12', name: 'TARO', type: 'workshop', location: '北ギャラリー',
         phases: [
-          { type: 'performance', label: '開催', startTime: '10:00', endTime: '17:00', technical: [], personnel: ['萩原'] },
-          { type: 'teardown', label: '', startTime: '17:00', endTime: '19:00', technical: ['鬣', '川瀬', '十河', '村上'], personnel: [] }
+          { type: 'performance', label: '開催', startTime: '10:00', endTime: '17:00', technical: [], personnel: ['Hg'] },
+          { type: 'teardown', label: '', startTime: '17:00', endTime: '19:00', technical: ['T', 'K', 'S', 'M'], personnel: [] }
         ] }
     ],
     techActions: [
-      { date: '2026-09-12', type: 'mt', label: '', startTime: '09:30', endTime: '10:00', technical: ['鬣', '川瀬', '十河', '村上'] },
+      { date: '2026-09-12', type: 'mt', label: '', startTime: '09:30', endTime: '10:00', technical: ['T', 'K', 'S', 'M'] },
       { date: '2026-09-12', type: 'break', label: '', startTime: '13:00', endTime: '14:00', technical: [] }
     ]
   }

@@ -267,7 +267,7 @@ function renderMeta() {
   box.appendChild(editable('input', m.program, v => m.program = v, { cls: 'program', placeholder: 'プログラム名（例：Co-program カテゴリーA採択事業）' }));
   box.appendChild(editable('input', m.title, v => m.title = v, { cls: 'title', placeholder: '公演タイトル' }));
   box.appendChild(editable('input', m.dates, v => m.dates = v, { cls: 'dates', placeholder: '公演日程（例：2026年8月29日(土)ー30日(日)）' }));
-  box.appendChild(editable('input', m.venue, v => m.venue = v, { cls: 'venue', placeholder: '会場（例：京都芸術センター講堂）' }));
+  box.appendChild(editable('input', m.venue, v => m.venue = v, { cls: 'venue', placeholder: '会場（例：講堂）' }));
   const up = editable('input', m.updated ? `最終更新：${m.updated}` : '', () => {}, { cls: 'updated' });
   if (mode === 'edit') { up.value = m.updated || ''; up.placeholder = '最終更新'; up.oninput = () => { m.updated = up.value; saveSoon(); }; }
   box.appendChild(up);
@@ -880,7 +880,7 @@ function renderForm() {
     const g2 = el('div', 'ev-head');
     const ty = el('select'); Object.entries(EVENT_TYPES).forEach(([k, v]) => { const o = el('option', null, v.name); o.value = k; ty.appendChild(o); }); ty.value = f.type;
     const lt = el('label', 'fl', '種別'); lt.appendChild(bindField(ty, f, 'type', { rerender: true })); g2.appendChild(lt);
-    const v = el('input'); v.type = 'text'; v.value = state.meta.venue; v.placeholder = '例：京都芸術センター講堂';
+    const v = el('input'); v.type = 'text'; v.value = state.meta.venue; v.placeholder = '例：KAC 講堂';
     const lv = el('label', 'fl', '会場'); lv.appendChild(bindField(v, state.meta, 'venue')); g2.appendChild(lv);
     root.appendChild(g2);
     const ds = el('input'); ds.type = 'text'; ds.value = state.meta.dates; ds.placeholder = '例：2026年8月28日(金)ー31日(月)　※空欄なら日程から自動';
