@@ -82,7 +82,7 @@ function newState(kind = base) {
     lanes: t.lanes.map(n => ({ id: uid(), name: n, staff: '' })),
     days: [{ id: uid(), date: todayISO(), label: '', notes: '', blocks: [], lanes: t.lanes.map(n => ({ id: uid(), name: n, staff: '' })) }],
     notes: '',
-    form: JSON.parse(JSON.stringify(t.form))
+    form: normalizeForm(t.form)
   };
 }
 
@@ -173,7 +173,7 @@ function switchBase(kind, opts = {}) {
   base = kind;
   try { localStorage.setItem(BASE_KEY, kind); } catch (e) { /* ignore */ }
   if (opts.state) state = opts.state;
-  else state = load(kind) || sampleState(kind);
+  else state = load(kind) || newState(kind); // 初回は新規の状態から（サンプルは「サンプル」ボタンで）
   if (carryForm) state.form = carryForm;
   // フォーム由来のブロックは読み込み時に作り直す（生成ルールが更新されても古い表示が残らないように）
   if (state.form && (state.form.events.length || state.form.techActions.length)) {
