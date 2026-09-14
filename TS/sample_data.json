@@ -1,0 +1,64 @@
+{
+  "staff_data": {
+    "technical": ["鬣さん", "川瀬彪", "十河さん"],
+    "personnel": ["村上美樹", "原田さん", "青田", "雪岡"]
+  },
+  "events": [
+    {
+      "date": "2026-09-12",
+      "name": "明倫レコード倶楽部",
+      "type": "stage",
+      "location": "フリースペース",
+      "phases": [
+        {
+          "type": "setup",
+          "label": "午前中設営",
+          "startTime": "09:00",
+          "endTime": "14:30",
+          "technical": [],
+          "personnel": ["原田さん"]
+        },
+        {
+          "type": "performance",
+          "label": "本番",
+          "startTime": "15:00",
+          "endTime": "18:00",
+          "technical": [],
+          "personnel": ["原田さん"]
+        }
+      ]
+    },
+    {
+      "date": "2026-09-12",
+      "name": "UAC",
+      "type": "exhibition",
+      "location": "講堂",
+      "phases": [
+        {
+          "type": "setup",
+          "label": "設営・本番",
+          "startTime": "12:00",
+          "endTime": "20:00",
+          "technical": ["鬣さん", "川瀬彪"],
+          "personnel": ["村上美樹"]
+        }
+      ]
+    },
+    {
+      "date": "2026-09-12",
+      "name": "TARO",
+      "type": "exhibition",
+      "location": "北ギャラリー",
+      "phases": [
+        {
+          "type": "performance",
+          "label": "展示・撤収",
+          "startTime": "10:00",
+          "endTime": "17:00",
+          "technical": ["鬣さん"],
+          "personnel": []
+        }
+      ]
+    }
+  ]
+}

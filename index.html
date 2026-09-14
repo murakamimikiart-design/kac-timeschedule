@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<title>KAC タイムスケジュール</title>
+<link rel="stylesheet" href="css/style.css?v=20260914j">
+</head>
+<body data-mode="edit">
+
+<header id="toolbar">
+  <div class="brand">KAC<span>TS</span></div>
+  <button class="base-badge" id="baseBadge" title="ベースは入力フォームで選べます">運営</button>
+  <div class="seg" id="modeSeg">
+    <button data-mode="edit" class="on">編集</button>
+    <button data-mode="view">閲覧</button>
+    <button data-mode="live">本番進行</button>
+  </div>
+  <button class="tb" id="btnSide" title="入力フォームの表示/非表示">📝 フォーム</button>
+  <button class="tb" id="btnUndo" title="元に戻す (Ctrl+Z)">↩ 元に戻す</button>
+  <span class="sep"></span>
+  <button class="tb" id="btnNew">新規</button>
+  <button class="tb" id="btnSample">サンプル</button>
+  <button class="tb" id="btnSettings">⚙ 設定</button>
+  <span class="spacer"></span>
+  <button class="tb" id="btnImport">JSON読込</button>
+  <button class="tb" id="btnExport">JSON保存</button>
+  <button class="tb" id="btnExcel">Excel</button>
+  <button class="tb" id="btnPrint">印刷 / PDF</button>
+  <button class="tb primary" id="btnShare">共有URL</button>
+  <input type="file" id="fileInput" accept=".json,application/json" hidden>
+</header>
+
+<div id="hint" class="hint">
+  <b>使い方：</b>右のフォームに記入すると表が自動で作られます ／ 表の上では：マス目をドラッグしてブロック追加、クリックで編集（下のバー）、ドラッグで移動、右端で長さ変更 ／ 変更は自動でブラウザに保存されます
+</div>
+
+<main id="wrap">
+  <div id="sheetWrap"><div id="sheet"></div></div>
+  <aside id="side"><div id="form"></div></aside>
+</main>
+
+<!-- ブロック編集バー（画面下） -->
+<aside id="editor" hidden>
+  <div class="eg eg-text">
+    <label>種別 ／ ラベル</label>
+    <div class="inl"><select id="edType"></select><select id="edPick" title="ラベルを選ぶ"></select></div>
+    <textarea id="edText" rows="2" placeholder="ラベル（空欄なら種別名）"></textarea>
+  </div>
+  <div class="eg">
+    <label>時間</label>
+    <div class="inl"><select id="edStart"></select><span>〜</span><select id="edEnd"></select></div>
+    <label>行</label>
+    <div class="inl"><select id="edLane0"></select><span>〜</span><select id="edLane1"></select></div>
+  </div>
+  <div class="eg">
+    <label>背景色</label>
+    <div class="palette" id="edPalette"></div>
+    <div class="inl"><input type="color" id="edBg" title="カスタム色">
+      <span class="fgs" id="edFg" title="文字色">
+        <button data-fg="#000000" style="background:#000"></button>
+        <button data-fg="#d00000" style="background:#d00000"></button>
+        <button data-fg="#ffffff" style="background:#fff;border-color:#999"></button>
+        <button data-fg="#1d4ed8" style="background:#1d4ed8"></button>
+      </span>
+    </div>
+  </div>
+  <div class="eg">
+    <label>文字</label>
+    <label class="ck"><input type="checkbox" id="edBold"> 太字</label>
+    <label class="ck"><input type="checkbox" id="edVertical"> 縦書き</label>
+    <select id="edSize"><option value="s">小</option><option value="m">中</option><option value="l">大</option></select>
+  </div>
+  <div class="eg ed-actions">
+    <button class="tb toform" id="edToForm" title="このブロックを右のフォームのフェーズとして登録します">→ フォームに追加</button>
+    <button class="tb" id="edDup">複製</button>
+    <button class="tb danger" id="edDel">削除</button>
+    <button class="tb" id="edClose" title="閉じる (Esc)">閉じる</button>
+  </div>
+</aside>
+
+<!-- 本番進行パネル -->
+<aside id="live" hidden>
+  <div class="clock" id="clock">--:--</div>
+  <label class="live-day">表示する日 <select id="liveDay"></select></label>
+  <div id="liveInfo" class="live-info"></div>
+  <h4>進行中</h4>
+  <ul id="liveNow"></ul>
+  <h4>次の予定</h4>
+  <ul id="liveNext"></ul>
+</aside>
+
+<!-- 設定 -->
+<dialog id="dlgSettings">
+  <form method="dialog">
+    <h3>設定</h3>
+    <div class="row2">
+      <label>表示開始 <select id="stStart"></select></label>
+      <label>表示終了 <select id="stEnd"></select></label>
+    </div>
+    <label>マス目の単位
+      <select id="stSlot"><option value="30">30分</option><option value="15">15分</option><option value="60">60分</option></select>
+    </label>
+    <div class="row2">
+      <label>利用開始（これより前は灰色） <input type="time" id="stOpen"></label>
+      <label>利用終了（赤線・以降は灰色） <input type="time" id="stClose"></label>
+    </div>
+    <p class="note">空欄にすると灰色・赤線は表示されません。</p>
+    <div class="dlg-actions">
+      <button value="cancel" class="tb">キャンセル</button>
+      <button value="ok" class="tb primary" id="stOk">適用</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- 共有 -->
+<dialog id="dlgShare">
+  <form method="dialog">
+    <h3>共有URL</h3>
+    <p class="note">URLの中にスケジュールデータが埋め込まれます。相手がこのURLを開くと同じ内容が表示されます（サーバー不要）。</p>
+    <label>編集できるURL
+      <div class="copyrow"><input type="text" id="shareEdit" readonly><button type="button" class="tb" data-copy="shareEdit">コピー</button></div>
+    </label>
+    <label>閲覧モードで開くURL
+      <div class="copyrow"><input type="text" id="shareView" readonly><button type="button" class="tb" data-copy="shareView">コピー</button></div>
+    </label>
+    <div class="dlg-actions"><button value="ok" class="tb primary">閉じる</button></div>
+  </form>
+</dialog>
+
+<div id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="js/sample.js?v=20260914j"></script>
+<script src="js/app.js?v=20260914j"></script>
+</body>
+</html>
